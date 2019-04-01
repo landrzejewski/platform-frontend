@@ -1,0 +1,59 @@
+<div [style.width.px]="width" [style.height.px]="height - 54">
+  <as-split direction="horizontal" [gutterSize]="gutterSize">
+    <as-split-area size="20">
+      <div class="products-list-title truncate">{{ 'products.products-panel.products' | translate }}</div>
+      <div class="product-element" *ngFor="let product of products" [ngClass]="{'selected': selectedProduct === product}" (click)="select(product)">
+        <div class="product-element-title">{{product.name}}</div>
+        <div class="product-element-description">{{product.description}}</div>
+      </div>
+    </as-split-area>
+    <as-split-area size="60">
+      <div class="product-title truncate">{{ 'products.products-panel.product' | translate }}</div>
+      <form #productForm="ngForm" class="panel" novalidate="true" (ngSubmit)="save()">
+        <div *ngIf="editedProduct">
+        <div class="form-group">
+          <label for="name">{{ 'products.products-panel.name' | translate }}</label>
+          <input id="name" name="name" class="form-control" required [(ngModel)]="editedProduct.name"
+                 placeholder="{{ 'products.products-panel.name-hint' | translate }}">
+        </div>
+        <div class="form-group">
+          <label for="description">{{ 'products.products-panel.description' | translate }}</label>
+          <textarea id="description" name="description" class="form-control" rows="6" placeholder="{{ 'products.products-panel.description-hint' | translate }}"
+                    [(ngModel)]="editedProduct.description"></textarea>
+        </div>
+        <span *ngIf="saveError" class="error">{{ 'products.products-panel.save-product-failed' | translate }}</span>
+        </div>
+        <div class="form-group text-right">
+          <button class="btn btn-secondary m-1" type="button" (click)="addProduct()" *ngIf="!editedProduct" >{{ 'products.products-panel.new-button' | translate }}</button>
+          <button class="btn btn-secondary m-1" type="button" (click)="deleteProduct()" [disabled]="productForm.invalid" *ngIf="selectedProduct">{{ 'products.products-panel.delete-button' | translate }}</button>
+          <button class="btn btn-secondary m-1" type="button" (click)="reset()" *ngIf="editedProduct">{{ 'products.products-panel.cancel-button' | translate }}</button>
+          <button class="btn btn-secondary m-1" type="submit" *ngIf="editedProduct" [disabled]="productForm.invalid || pendingRequest">{{ 'products.products-panel.save-button' | translate }}</button>
+        </div>
+      </form>
+      <div *ngIf="editedProduct">
+        <div class="invitation-title truncate">{{ 'products.products-panel.invitations' | translate }}</div>
+        <form #invitationsForm="ngForm" class="panel" novalidate="true" (ngSubmit)="invite()">
+          <div class="form-group">
+            <label for="invitation">{{ 'products.products-panel.invitation' | translate }}</label>
+            <textarea id="invitation" name="invitation" class="form-control" rows="6" placeholder="{{ 'products.products-panel.invitation-hint' | translate }}" [(ngModel)]="invitationText" required></textarea>
+          </div>
+          <div class="form-group">
+            <label for="emails">{{ 'products.products-panel.emails' | translate }}</label>
+            <textarea id="emails" name="emails" class="form-control" rows="6" placeholder="{{ 'products.products-panel.emails-hint' | translate }}" required [(ngModel)]="invitationEmails"></textarea>
+          </div>
+          <span *ngIf="saveError" class="error">{{ 'products.products-panel.invitation-failed' | translate }}</span>
+          <div class="form-group mb-0 text-right">
+            <button class="btn btn-secondary mt-2" type="submit"  [disabled]="!selectedProduct || invitationsForm.invalid || pendingRequest">{{ 'products.products-panel.invite-button' | translate }}</button>
+          </div>
+        </form>
+      </div>
+    </as-split-area>
+    <as-split-area size="20">
+      <div class="projects-title truncate">{{ 'products.products-panel.elements' | translate }}</div>
+      <div class="project-element" *ngFor="let project of projects" (click)="selectProject(project)" [ngClass]="{'selected': getElementIndex(project.id) !== -1}" >
+        <div class="project-element-title">{{project.name}}</div>
+        <div class="project-element-description" [innerHTML]="project?.description | safeHtml"></div>
+      </div>
+    </as-split-area>
+  </as-split>
+</div>

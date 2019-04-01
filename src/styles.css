@@ -1,0 +1,336 @@
+*, ::after, ::before {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
+  display: block;
+}
+
+html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background-color: #1e1e1e;
+}
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  color: #bccad7;
+  background-color: #1e1e1e;
+}
+
+input {
+  -webkit-appearance: textfield;
+  background-color: white;
+  -webkit-rtl-ordering: logical;
+  cursor: text;
+  padding: 1px;
+  border-width: 2px;
+  border-style: inset;
+  border-color: initial;
+  border-image: initial;
+}
+
+input, textarea, select, button {
+  text-rendering: auto;
+  color: initial;
+  letter-spacing: normal;
+  word-spacing: normal;
+  text-transform: none;
+  text-indent: 0px;
+  text-shadow: none;
+  display: inline-block;
+  text-align: start;
+  margin: 0em;
+  font: 400 11px system-ui;
+}
+
+input, textarea, select, button, meter, progress {
+  -webkit-writing-mode: horizontal-tb !important;
+}
+
+input, textarea, select, button {
+  text-rendering: auto;
+  color: initial;
+  letter-spacing: normal;
+  word-spacing: normal;
+  text-transform: none;
+  text-indent: 0;
+  text-shadow: none;
+  display: inline-block;
+  text-align: start;
+  margin: 0;
+}
+
+textarea {
+  overflow: auto;
+  resize: vertical
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  height: calc(2.2125rem + 2px);
+  padding: .45rem .9rem;
+  font-size: .875rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #e3eaef;
+  background-color: #252525;
+  border: 1px solid #252525;
+  background-clip: padding-box;
+  border-radius: .25rem;
+}
+
+.form-control[readonly] {
+  background-color: #252525;
+  color: #6E757C;
+}
+
+.form-control:focus {
+  color: #e3eaef;
+  background-color: #292929;
+  border: 1px solid #292929;
+  outline: 0;
+  -webkit-box-shadow: none;
+  box-shadow: none
+}
+
+button, input {
+  overflow: visible;
+}
+
+button, input, optgroup, select, textarea {
+  margin: 0;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+.btn:hover {
+  color: #aab8c5;
+  text-decoration: none
+}
+
+.btn.focus, .btn:focus {
+  outline: 0;
+  -webkit-box-shadow: 0 0 0 .15rem rgba(114, 124, 245, .25);
+  box-shadow: 0 0 0 .15rem rgba(114, 124, 245, .25)
+}
+
+.btn.disabled, .btn:disabled {
+  opacity: .65
+}
+
+.btn:not(:disabled):not(.disabled) {
+  cursor: pointer
+}
+
+a.btn.disabled, fieldset:disabled a.btn {
+  pointer-events: none
+}
+
+.custom-checkbox .custom-control-input:indeterminate ~ .custom-control-label::before {
+  border-color: #464f5b !important;
+  background-color: #464f5b !important;
+}
+
+.custom-checkbox .custom-control-input ~ .custom-control-label::before {
+  border-color: #464f5b !important;
+  background-color: #464f5b !important;
+}
+
+.custom-checkbox .custom-control-input:checked ~ .custom-control-label::before {
+  background-color: #364c6f !important;
+}
+
+.btn-secondary {
+  color: #fff;
+  background-color: #29323e;
+  border-color: #29323e
+}
+
+.btn-secondary:hover {
+  color: #fff;
+  background-color: #353c45;
+  border-color: #353c45
+}
+
+.btn-secondary.focus, .btn-secondary:focus {
+  -webkit-box-shadow: 0 0 0 .1rem rgba(98, 105, 116, .5);
+  box-shadow: 0 0 0 .1rem rgba(98, 105, 116, .5)
+}
+
+.btn-secondary.disabled, .btn-secondary:disabled {
+  color: #fff;
+  background-color: #464f5b;
+  border-color: #464f5b
+}
+
+.btn-secondary:not(:disabled):not(.disabled).active, .btn-secondary:not(:disabled):not(.disabled):active, .show > .btn-secondary.dropdown-toggle {
+  color: #fff;
+  background-color: #30363e;
+  border-color: #30363e
+}
+
+.btn-secondary:not(:disabled):not(.disabled).active:focus, .btn-secondary:not(:disabled):not(.disabled):active:focus, .show > .btn-secondary.dropdown-toggle:focus {
+  -webkit-box-shadow: 0 0 0 .1rem rgba(98, 105, 116, .5);
+  box-shadow: 0 0 0 .1rem rgba(98, 105, 116, .5)
+}
+
+a {
+  color: #569cd6;
+  font-size: 16px;
+}
+
+a:hover {
+  color: #5bafff;
+  text-decoration: none;
+}
+
+.card-header {
+  background-color: #364c6f;
+  border: none;
+}
+
+.card {
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: #1e1e1e;
+  background-clip: border-box;
+  border-radius: .25rem;
+}
+
+.card-body {
+  border: 1px solid #2d2d2d;
+  border-top: none;
+}
+
+input.ng-dirty.ng-invalid, input.ng-touched.ng-invalid {
+  border: 1px solid #df515b;
+}
+
+.error {
+  color: #df515b;
+}
+
+a.nav-link:focus {
+  color: #5bafff;
+}
+
+.dropdown-item {
+  display: block;
+  width: 100%;
+  padding: .375rem 1.5rem;
+  clear: both;
+  color: #e9f0f5;
+  text-align: inherit;
+  white-space: nowrap;
+  font-size: .875rem;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  display: none;
+  float: left;
+  min-width: 10rem;
+  padding: .25rem 0;
+  margin: .125rem 0 0;
+  font-size: .875rem;
+  color: #e9f0f5;
+  text-align: left;
+  list-style: none;
+  background-color: #2d2d2d;
+  background-clip: padding-box;
+}
+
+.dropdown-toggle::after {
+  display: inline-block;
+  margin-left: .2125em;
+  vertical-align: .2125em;
+  content: "";
+  border-top: .25em solid;
+  border-right: .25em solid transparent;
+  border-bottom: 0;
+  border-left: .25em solid transparent;
+}
+
+.nav .dropdown-menu a:hover, .nav .dropdown-menu a:focus {
+  background-color: #292929;
+  color: #e9f0f5;
+}
+
+.scroll-decoration {
+  display: none;
+}
+
+.as-split-gutter {
+  background-color: #2d2d2d!important;
+}
+
+/*.as-split-gutter-icon {*/
+  /*display: none;*/
+/*}*/
+
+.monaco-editor .monaco-scrollable-element .scrollbar.horizontal,
+.monaco-editor .decorationsOverviewRuler,
+.monaco-editor .monaco-scrollable-element .scrollbar.vertical .arrow-background {
+  display: none;
+}
+/* Make vertical scrollbar transparent to allow decorations overview ruler to be visible */
+.monaco-editor .monaco-scrollable-element .scrollbar.vertical {
+  display: none;
+}
+
+.spinner-border {
+  color: #ffbc00!important;
+  display: inline-block;
+  vertical-align: text-bottom;
+  border-right-color: transparent;
+  border-radius: 50%;
+ -webkit-animation: spinner-border .75s linear infinite;
+  animation: spinner-border .75s linear infinite;
+  width: 20px;
+  height: 20px;
+  border-width: 2px;
+}
+
+.alert {
+  text-align: center;
+  border-radius: 0;
+}
+
+.alert-dismissible {
+  padding-right: 3.8125rem;
+}
+
+code {
+  color: #5bafff;
+}
+
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+label {
+  font-size: 14px;
+}

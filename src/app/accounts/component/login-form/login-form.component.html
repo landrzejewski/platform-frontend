@@ -1,0 +1,40 @@
+<div class="container mt-5 mb-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card">
+        <div class="card-header">
+          {{ 'accounts.login-form.title' | translate }}
+        </div>
+        <div class="card-body">
+          <form #loginForm="ngForm" class="pt-2 pb-2 pl-lg-3 pr-lg-3 pl-md-3 pr-md-3 pl-sm-2 pr-sm-2" novalidate="true" (ngSubmit)="login()">
+            <div class="form-group">
+              <label for="email">{{ 'accounts.login-form.email-address' | translate }}</label>
+              <input id="email" name="username" type="email" class="form-control" required email
+                     placeholder="{{ 'accounts.login-form.email-hint' | translate }}" [(ngModel)]="credentials.email">
+            </div>
+            <div class="form-group">
+              <a routerLink="/reset-password" class=" float-right">
+                <small>{{ 'accounts.login-form.forgot-password' | translate }}</small>
+              </a>
+              <label for="password">{{ 'accounts.login-form.password' | translate }}</label>
+              <input id="password" name="password" type="password" class="form-control" required
+                     placeholder="{{ 'accounts.login-form.password-hint' | translate }}"
+                     [(ngModel)]="credentials.password">
+            </div>
+            <span *ngIf="loginError" class="error">{{ 'accounts.login-form.authentication-failed-message' | translate }}</span>
+            <div class="form-group mb-0 text-right">
+              <button class="btn btn-secondary mt-2" type="submit" [disabled]="loginForm.invalid">{{ 'accounts.login-form.login-button' | translate }}</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-12 text-center">
+          <p class="text-muted">
+            {{ 'accounts.login-form.dont-have-an-account-yet' | translate }} <a routerLink="/registration">{{ 'accounts.login-form.registration-link' | translate }}</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

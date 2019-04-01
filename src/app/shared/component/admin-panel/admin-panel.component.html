@@ -1,0 +1,22 @@
+<div>
+  <div class="navbar">
+    <ul class="nav justify-content-left">
+      <li class="nav-itemu">
+        <a class="nav-link" routerLink="products">{{ 'shared.admin-panel.products' | translate }}</a>
+      </li>
+      <li class="nav-item dropdown" [hidden]="!isAdmin">
+        <a class="nav-link dropdown-toggle" href="#"
+           data-toggle="dropdown">{{ 'shared.admin-panel.projects' | translate }}</a>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" routerLink="import-project">{{ 'shared.admin-panel.import-project' | translate }}</a>
+        </div>
+      </li>
+    </ul>
+    <ul class="nav justify-content-right">
+      <li class="nav-item">
+        <a class="nav-link" routerLink="" (click)="logout()">{{ 'shared.admin-panel.logout-button' | translate }}</a>
+      </li>
+    </ul>
+  </div>
+  <router-outlet></router-outlet>
+</div>

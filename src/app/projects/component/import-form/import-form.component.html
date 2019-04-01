@@ -1,0 +1,35 @@
+<div class="container mt-5 mb-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card">
+        <div class="card-header">
+          {{ 'projects.import-project.title' | translate }}
+        </div>
+        <div class="card-body">
+          <form #importForm="ngForm" class="pt-2 pb-2 pl-lg-3 pr-lg-3 pl-md-3 pr-md-3 pl-sm-2 pr-sm-2" novalidate="true" (ngSubmit)="importProject()">
+            <div class="form-group">
+              <label for="repositoryUrl">{{ 'projects.import-project.repository-remoteUrl' | translate }}</label>
+              <input id="repositoryUrl" type="url" name="repositoryUrl" class="form-control" required
+                     placeholder="{{ 'projects.import-project.repository-remoteUrl-hint' | translate }}" [(ngModel)]="repositoryUrl">
+            </div>
+            <div class="form-group">
+              <label for="username">{{ 'projects.import-project.username' | translate }}</label>
+              <input id="username" name="username" class="form-control"
+                     placeholder="{{ 'projects.import-project.username-hint' | translate }}" [(ngModel)]="username">
+            </div>
+            <div class="form-group">
+              <label for="password">{{ 'projects.import-project.password' | translate }}</label>
+              <input id="password" name="password" type="password" class="form-control"
+                     placeholder="{{ 'projects.import-project.password-hint' | translate }}"
+                     [(ngModel)]="password">
+            </div>
+            <span *ngIf="importError" class="error">{{ 'projects.import-project.import-failed-message' | translate }}</span>
+            <div class="form-group mb-0 text-right">
+              <button class="btn btn-secondary mt-2" type="submit" [disabled]="importForm.invalid || pendingRequest">{{ 'projects.import-project.import-button' | translate }}</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

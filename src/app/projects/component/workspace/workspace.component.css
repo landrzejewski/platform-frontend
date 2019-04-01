@@ -1,0 +1,88 @@
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.brand {
+  color: #d4d4d4;
+  font-size: 18px;
+}
+
+.nav-link {
+  font-size: 14px;
+  padding: 10px;
+}
+
+@media (max-width: 380px) {
+  .nav-link {
+    font-size: 12px;
+  }
+}
+
+
+.navbar {
+  background-color: #2d2d2d;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.files-title, .editor-title, .description-title {
+  text-align: center;
+  color: #d4d4d4;
+  background-color: #393939;
+  padding: 6px;
+  font-size: 14px;
+}
+
+.files {
+  padding: 8px;
+  overflow: hidden;
+}
+
+.editor-wrapper {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.editor {
+  padding-top: 10px;
+  width: 100%;
+  height: 96%;
+}
+
+.description {
+  padding: 8px 12px;
+}
+
+.logs {
+  padding: 8px;
+  overflow: hidden;
+}
+
+pre {
+  color: #d4d4d4;
+}
+
+.scroll {
+  white-space: nowrap;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+.status {
+  color: #ffbc00;
+  padding: 8px;
+  font-size: 14px;
+}
+
+.success {
+  font-size: 14px;
+  padding: 5px;
+  margin: 0!important;
+  color: #d4d4d4;
+  background-color: #393939;
+  border: none;
+}

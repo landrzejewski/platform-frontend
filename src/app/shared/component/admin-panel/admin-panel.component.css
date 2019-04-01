@@ -1,0 +1,28 @@
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.brand {
+  color: #d4d4d4;
+  font-size: 18px;
+}
+
+.nav-link {
+  font-size: 14px;
+  padding: 10px;
+}
+
+@media (max-width: 380px) {
+  .nav-link {
+    font-size: 12px;
+  }
+}
+
+
+.navbar {
+  background-color: #2d2d2d;
+  padding-left: 20px;
+  padding-right: 20px;
+}

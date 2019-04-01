@@ -1,0 +1,33 @@
+<div class="container mt-5 mb-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card">
+        <div class="card-header">
+          {{ 'accounts.email-form.title' | translate }}
+        </div>
+        <div class="card-body justified" *ngIf="resetPasswordStatus">
+          {{ 'accounts.email-form.success-message' | translate }}
+        </div>
+        <div class="card-body" *ngIf="!resetPasswordStatus">
+          <form #emailForm="ngForm" class="pt-2 pb-2 pl-lg-3 pr-lg-3 pl-md-3 pr-md-3 pl-sm-2 pr-sm-2" novalidate="true" (ngSubmit)="sendResetPasswordRequest()">
+            <div class="form-group">
+              <label for="email">{{ 'accounts.email-form.email-address' | translate }}</label>
+              <input id="email" name="email" type="email" class="form-control" required email
+                     placeholder="{{ 'accounts.email-form.email-hint' | translate }}" [(ngModel)]="email">
+            </div>
+            <div class="form-group mb-0 text-right">
+              <button class="btn btn-secondary mt-2" type="submit" [disabled]="emailForm.invalid">{{ 'accounts.email-form.reset-button' | translate }}</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-12 text-center">
+          <p class="text-muted">
+            <a routerLink="/login">{{ 'accounts.email-form.back-to-login-link' | translate }}</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

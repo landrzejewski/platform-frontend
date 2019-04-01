@@ -1,0 +1,14 @@
+node_modules
+dist
+
+### IntelliJ ###
+
+.idea
+httpRequests
+*.iml
+
+### macOS ###
+
+.DS_Store
+.AppleDouble
+.LSOverride

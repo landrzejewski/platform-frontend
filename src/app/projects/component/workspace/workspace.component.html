@@ -1,0 +1,68 @@
+<div [style.width.px]="width" [style.height.px]="height - (success ? 85 : 50)">
+  <div class="navbar">
+    <ul class="nav justify-content-left">
+      <li class="nav-item dropdown" [hidden]="status">
+        <a class="nav-link dropdown-toggle" href="#"
+           data-toggle="dropdown">{{ 'projects.workspace.my-projects' | translate }}</a>
+        <div class="dropdown-menu">
+          <a *ngFor="let projectSummary of projectsSummaries" class="dropdown-item"
+             (click)="onSelectProjectSummary(projectSummary)">{{projectSummary.name}}</a>
+        </div>
+      </li>
+    </ul>
+    <ul class="nav justify-content-center" *ngIf="selectedProject">
+      <li class="nav-item" [hidden]="status" *ngFor="let command of selectedProject.availableCommands">
+        <a class="nav-link" routerLink="" (click)="runCommand(command)" title="{{command.name}}">
+          <i class="fa fas" [ngClass]="{'fa-play': command.name === 'run', 'fa-hammer': command.name === 'build', 'fa-check': command.name === 'test'}"></i>
+        </a>
+      </li>
+      <li class="nav-item" [hidden]="status">
+        <a class="nav-link" routerLink="" (click)="resetProject()" title="{{ 'projects.workspace.reset-project' | translate }}">
+          <i class="fas fa-times"></i>
+        </a>
+      </li>
+      <li class="nav-item" [hidden]="!status">
+         <span class="spinner-border"></span>
+         <span class="status">{{status}}</span>
+      </li>
+    </ul>
+    <ul class="nav justify-content-right">
+      <li class="nav-item">
+        <a class="nav-link" routerLink="" (click)="logout()">{{ 'projects.workspace.logout-button' | translate }}</a>
+      </li>
+    </ul>
+  </div>
+  <as-split direction="horizontal" [gutterSize]="gutterSize" [hidden]="!selectedProject">
+    <as-split-area size="20">
+      <div class="files-title truncate" *ngIf="selectedProject">{{ 'projects.workspace.project' | translate }}</div>
+      <div class="files scroll">
+        <app-files-tree *ngIf="files" [items]="files" key="children"></app-files-tree>
+      </div>
+    </as-split-area>
+    <as-split-area size="60" style="background-color: #1e1e1e">
+      <as-split direction="vertical" [gutterSize]="gutterSize">
+        <as-split-area size="75">
+          <div class="editor-wrapper">
+            <div class="editor-title truncate" *ngIf="selectedProject">{{selectedFile.name}}</div>
+            <ngx-monaco-editor [hidden]="!selectedProject" (onInit)="onInitEditor($event)" [options]="editorOptions"
+                               [(ngModel)]="selectedFile.content" class="editor"></ngx-monaco-editor>
+          </div>
+        </as-split-area>
+        <as-split-area size="25">
+          <div class="logs">
+            <pre *ngFor="let log of logs">{{log.value}}</pre>
+          </div>
+        </as-split-area>
+      </as-split>
+    </as-split-area>
+    <as-split-area size="20">
+      <div class="description-title truncate" *ngIf="selectedProject">{{selectedProject.name}}</div>
+      <div class="description">
+        <p [innerHTML]="selectedProject?.description | safeHtml"></p>
+      </div>
+    </as-split-area>
+  </as-split>
+  <div class="success alert alert-secondary" *ngIf="success">
+    {{ 'projects.workspace.success' | translate }}
+  </div>
+</div>

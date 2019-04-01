@@ -1,0 +1,6 @@
+<ul *ngIf="items.length">
+  <li *ngFor="let item of items" [ngClass]="{'directory': item.isDirectory, 'file': !item.isDirectory}">
+    <span (click)="onSelect(item)" [ngClass]="{'selected': projectsService.fileChanges.value == item.name}">{{item.name}}</span>
+    <app-files-tree *ngIf="item[key]?.length" [key]="key" [items]="item[key]"></app-files-tree>
+  </li>
+</ul>
