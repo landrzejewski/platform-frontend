@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, Inject} from '@angular/core';
 import {SizeService} from "../../../size.service";
 import {ProjectsService} from "../../../projects/service/projects.service";
 import {ProductsService} from "../../service/products.service";
@@ -23,10 +23,10 @@ export class ProductsPanelComponent {
   pendingRequest = false;
   selectedProduct: ProductModel = null;
   editedProduct: ProductModel = null;
-  invitationText = '{link}';
+  invitationText = 'W związku ze zbliżającym się szkoleniem prosimy o zalogowanie się na platformie Sages i wykonanie kilku ćwiczeń praktycznych. Pozwoli to na określenie ogólnego poziomu wiedzy uczestników oraz lepsze dopasowanie do Państwa potrzeb. Dziękujemy.';
   invitationEmails = '';
 
-  constructor(private sizeService: SizeService, private productsService: ProductsService, private projectsService: ProjectsService) {
+  constructor(private sizeService: SizeService, @Inject('products-service') private productsService: ProductsService, private projectsService: ProjectsService) {
     sizeService.sizeChanges.asObservable()
       .subscribe(size => {
         this.width = size['width'];
@@ -78,7 +78,7 @@ export class ProductsPanelComponent {
   invite() {
     let invitation = new InvitationModel();
     invitation.text = this.invitationText;
-    invitation.emails = this.invitationEmails.split(';');
+    invitation.emails = this.invitationEmails.replace("\n","").split(';');
     this.productsService.invite(this.selectedProduct.id, invitation)
       .subscribe(() => this.reset(), (err) => console.log(err));
   }

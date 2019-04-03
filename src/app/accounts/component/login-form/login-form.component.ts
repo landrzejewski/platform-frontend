@@ -24,7 +24,7 @@ export class LoginFormComponent {
     this.loginError = false;
     this.securityService.login(this.credentials.email, this.credentials.password)
       .subscribe(
-        (account) => this.router.navigateByUrl(account.roles.indexOf('admin') !== -1 ? '/admin' : '/'),
+        (account) => this.router.navigateByUrl(account.roles.indexOf('admin') !== -1 ? '/admin' : '/product'),
         () => this.loginError = true
       )
   }

@@ -22,10 +22,6 @@ export class ProjectsService {
     return this.httpClient.get<ResultPageModel<ProjectSummaryModel>>(`${this.api.projects}`);
   }
 
-  getUserProjectsSummaries(): Observable<ProjectSummaryModel[]> {
-    return this.httpClient.get<ProjectSummaryModel[]>(`${this.api.userProjects}`);
-  }
-
   createProject(projectId: number): Observable<number> {
     return this.httpClient.put<HttpResponse<number>>(`${this.api.project}/${projectId}`, '', {observe: "response"})
       .pipe(map(response =>  +response.headers.get('Location').split("/").pop()));

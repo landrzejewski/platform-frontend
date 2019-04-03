@@ -10,6 +10,8 @@ import {AccountService} from "../../service/account.service";
 export class PasswordFormComponent  {
 
   password: '';
+  generalAgreement = false;
+  privacyAgreement = false;
 
   constructor(private accountService: AccountService, private activatedRoute: ActivatedRoute, private router: Router) {
     this.router = router;

@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {cloneDeep} from 'lodash';
 import {HttpErrorResponse} from '@angular/common/http';
 import {filter, flatMap, map, mergeMap, shareReplay, skipWhile} from 'rxjs/operators';
@@ -10,13 +10,16 @@ import {CommandModel} from '../../model/command.model';
 import {SizeService} from '../../../size.service';
 import {SecurityService} from '../../../accounts/service/security.service';
 import {LogEntryModel} from "../../model/log-entry.model";
+import {ProductsService} from "../../../products/service/products.service";
+import {ProductModel} from "../../../products/model/product.model";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-workspace',
   templateUrl: './workspace.component.html',
   styleUrls: ['./workspace.component.css']
 })
-export class WorkspaceComponent {
+export class WorkspaceComponent implements OnInit {
 
   gutterSize = 6;
   width = 0;
@@ -42,21 +45,27 @@ export class WorkspaceComponent {
     }
   };
 
-  constructor(private sizeService: SizeService, private projectsService: ProjectsService, private securityService: SecurityService) {
+  product: ProductModel;
+  currentProject = 0;
+
+  constructor(private sizeService: SizeService,private route: ActivatedRoute, private router: Router, private projectsService: ProjectsService, @Inject('products-service') private productsService: ProductsService,  private securityService: SecurityService) {
     sizeService.sizeChanges.asObservable()
       .subscribe(size => {
         this.width = size['width'];
         this.height = size['height'];
       });
-    projectsService.getUserProjectsSummaries()
-      .subscribe(projectsSummaries => this.projectsSummaries = projectsSummaries, error => this.showError(error));
     projectsService.fileChanges.asObservable().subscribe(file => this.onFileSelected(file));
   }
 
-  onSelectProjectSummary(projectSummary: ProjectSummaryModel) {
+  ngOnInit() {
+    this.product = this.route.snapshot.data.products[0];
+    this.createProject(this.product.elements[this.currentProject].elementId);
+  }
+
+  createProject(projectId: number) {
     this.error = null;
-    this.projectsService.createProject(projectSummary.id)
-      .subscribe(taskId => this.waitForProjectCreation(projectSummary.id, taskId), error => this.showError(error));
+    this.projectsService.createProject(projectId)
+      .subscribe(taskId => this.waitForProjectCreation(projectId, taskId), error => this.showError(error));
   }
 
   logout() {
@@ -169,8 +178,17 @@ export class WorkspaceComponent {
     this.success = false;
   }
 
-  onImportProject() {
-    console.log('sss');
+  showNextElement(event) {
+    event.preventDefault();
+    this.projectsService.updateProjectFiles(this.selectedProject.id, this.selectedProject.files)
+        .subscribe(() => {
+           if (this.currentProject < this.product.elements.length - 1) {
+             this.createProject(this.product.elements[++this.currentProject].elementId);
+           } else {
+             this.router.navigateByUrl('/product-final-summary');
+           }
+        }, (error) => console.log(error));
+
   }
 
 }

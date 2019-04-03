@@ -21,7 +21,7 @@
   "accounts.email-form.back-to-login-link": "Wróć do logowania",
   "accounts.email-form.success-message": "Na podany adres email przesłana zostanie wiadomość z linkiem umożliwiającym ustawienie nowego hasła. Po jej otrzymaniu należy otworzyć przesłany link w celu ukończenia procedury.",
 
-  "accounts.password-form.title": "Resetowanie hasła",
+  "accounts.password-form.title": "Ustawianie hasła",
   "accounts.password-form.password": "Nowe hasło",
   "accounts.password-form.password-hint": "Wprowadź swoje nowe hasło",
   "accounts.password-form.set-password-button": "Ustaw",
@@ -72,11 +72,11 @@
   "products.products-panel.invite-button": "Zaproś",
   "products.products-panel.invitation-failed": "Nie udało się wysłać zaproszenia",
 
-  "projects.workspace.my-projects": "Moje projekty",
   "projects.workspace.project": "Pliki",
-  "projects.workspace.reset-project": "Resetuj projekt",
+  "projects.workspace.reset-project": "reset",
   "projects.workspace.success": "Zadanie rozwiązane poprawnie",
   "projects.workspace.logout-button": "Wyloguj",
+  "projects.workspace.show-next-element-button": "Zapisz wynik",
 
   "projects.import-project.title": "Importowanie projektu",
   "projects.import-project.repository-url": "Adres repozytorium",
@@ -86,5 +86,11 @@
   "projects.import-project.password": "Hasło",
   "projects.import-project.password-hint": "Wprowadź swoje hasło",
   "projects.import-project.import-button": "Zaimportuj",
-  "projects.import-project.import-failed-message": "Importowanie projektu nie powiodło się"
+  "projects.import-project.import-failed-message": "Importowanie projektu nie powiodło się",
+
+  "products.product-summary.begin": "Rozpocznij",
+
+  "products.product-final-summary.title": "Podsumowanie",
+  "products.product-final-summary.text": "Dziękujemy Twoje wyniki zostały zapisane i przekazane do ewaluacji",
+  "products.product-final-summary.logout-button": "Wyloguj"
 }

@@ -8,9 +8,9 @@
         <div class="card-body">
           <form #importForm="ngForm" class="pt-2 pb-2 pl-lg-3 pr-lg-3 pl-md-3 pr-md-3 pl-sm-2 pr-sm-2" novalidate="true" (ngSubmit)="importProject()">
             <div class="form-group">
-              <label for="repositoryUrl">{{ 'projects.import-project.repository-remoteUrl' | translate }}</label>
+              <label for="repositoryUrl">{{ 'projects.import-project.repository-url' | translate }}</label>
               <input id="repositoryUrl" type="url" name="repositoryUrl" class="form-control" required
-                     placeholder="{{ 'projects.import-project.repository-remoteUrl-hint' | translate }}" [(ngModel)]="repositoryUrl">
+                     placeholder="{{ 'projects.import-project.repository-url-hint' | translate }}" [(ngModel)]="repositoryUrl">
             </div>
             <div class="form-group">
               <label for="username">{{ 'projects.import-project.username' | translate }}</label>

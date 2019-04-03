@@ -9,13 +9,22 @@ import {TranslateModule} from "@ngx-translate/core";
 import {AngularSplitModule} from "angular-split";
 import {ProductsService} from "./service/products.service";
 import {FormsModule} from "@angular/forms";
+import { ProductSummaryComponent } from './component/product-summary/product-summary.component';
+import {ActiveProductsResolver} from "./active-products-resolver";
+import { ProductFinalSummaryComponent } from './component/product-final-summary/product-final-summary.component';
 
 @NgModule({
   declarations: [
-    ProductsPanelComponent
+    ProductsPanelComponent,
+    ProductSummaryComponent,
+    ProductFinalSummaryComponent
   ],
   providers: [
-    ProductsService
+    {
+      provide: 'products-service',
+      useClass: ProductsService
+    },
+    ActiveProductsResolver
   ],
   imports: [
     CommonModule,

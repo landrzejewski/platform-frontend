@@ -5,12 +5,14 @@ import {SecurityGuard} from "../accounts/guard/security.guard";
 import {AdminSecurityGuard} from "../accounts/guard/admin-security.guard";
 import {ImportFormComponent} from "./component/import-form/import-form.component";
 import {AdminPanelComponent} from "../shared/component/admin-panel/admin-panel.component";
+import {ActiveProductsResolver} from "../products/active-products-resolver";
 
 const routes: Routes = [
   {
     path: 'workspace',
     component: WorkspaceComponent,
-    canActivate: [SecurityGuard]
+    canActivate: [SecurityGuard],
+    resolve: {products: ActiveProductsResolver}
   },
   {
     path: 'admin',

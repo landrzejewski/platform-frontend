@@ -16,6 +16,10 @@ export class ProductsService {
     return this.httpClient.get<ResultPageModel<ProductModel>>(`${this.api.products}?pageSize=1000`);
   }
 
+  getActiveProducts(): Observable<ProductModel[]> {
+    return this.httpClient.get<ProductModel[]>(`${this.api.products}/active`);
+  }
+
   saveProduct(selectedProduct: ProductModel): Observable<void> {
     return this.httpClient.post<void>(this.api.products, selectedProduct);
   }
