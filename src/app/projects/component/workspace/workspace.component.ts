@@ -1,7 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {cloneDeep} from 'lodash';
 import {HttpErrorResponse} from '@angular/common/http';
-import {filter, flatMap, map, mergeMap, shareReplay, skipWhile} from 'rxjs/operators';
+import {flatMap, mergeMap, shareReplay, skipWhile} from 'rxjs/operators';
 import {interval, zip} from 'rxjs';
 import {ProjectModel} from '../../model/project.model';
 import {ProjectSummaryModel} from '../../model/project-summary.model';
@@ -24,7 +23,6 @@ export class WorkspaceComponent implements OnInit {
   gutterSize = 6;
   width = 0;
   height = 0;
-  projectsSummaries: ProjectSummaryModel[] = [];
   selectedProject: ProjectModel;
   error = '';
   status = '';
@@ -47,6 +45,8 @@ export class WorkspaceComponent implements OnInit {
 
   product: ProductModel;
   currentProject = 0;
+  simpleLayout = true;
+  ready = false;
 
   constructor(private sizeService: SizeService,private route: ActivatedRoute, private router: Router, private projectsService: ProjectsService, @Inject('products-service') private productsService: ProductsService,  private securityService: SecurityService) {
     sizeService.sizeChanges.asObservable()
@@ -86,7 +86,9 @@ export class WorkspaceComponent implements OnInit {
     zip(this.projectsService.getProject(projectId), this.projectsService.getProjectFiles(projectId))
       .subscribe(([project, files]) => {
         project.files = files;
+        this.simpleLayout = project.language === 'text';
         this.selectedProject = project;
+        this.ready = true;
         this.showFiles();
       }, error => this.showError(error));
   }
@@ -105,6 +107,7 @@ export class WorkspaceComponent implements OnInit {
         language: this.selectedProject.language,
         readOnly: !this.selectedFile.editable
       });
+
     }
   }
 
@@ -126,7 +129,9 @@ export class WorkspaceComponent implements OnInit {
   private onFileSelected(fileName: string) {
     if (this.selectedProject) {
       this.selectedFile = this.selectedProject.files.find(file => file.name === fileName);
-      this.editor.updateOptions({readOnly: !this.selectedFile.editable});
+      if (this.editor) {
+        this.editor.updateOptions({readOnly: !this.selectedFile.editable});
+      }
     }
   }
 

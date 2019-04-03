@@ -2,7 +2,7 @@
   <div class="navbar">
     <ul class="nav justify-content-left">
       <li class="nav-item">
-        <a class="nav-link" routerLink="" *ngIf="product" (click)="showNextElement($event)">{{ 'projects.workspace.show-next-element-button' | translate }}</a>
+        <a class="nav-link" routerLink="" *ngIf="product && currentProject < product.elements.length" (click)="showNextElement($event)">{{ 'projects.workspace.show-next-element-button' | translate }}</a>
       </li>
     </ul>
     <ul class="nav justify-content-center" *ngIf="selectedProject && selectedProject.language !== 'text'">
@@ -27,30 +27,30 @@
       </li>
     </ul>
   </div>
-  <as-split direction="horizontal" [gutterSize]="gutterSize" [hidden]="!selectedProject">
-    <as-split-area size="{{selectedProject && selectedProject.language === 'text' ? 0 : 20}}">
+  <as-split direction="horizontal" [gutterSize]="gutterSize" *ngIf="ready">
+    <as-split-area size="{{simpleLayout ? 10 : 20}}">
       <div class="files-title truncate" *ngIf="selectedProject">{{ 'projects.workspace.project' | translate }}</div>
       <div class="files scroll">
         <app-files-tree *ngIf="files" [items]="files" key="children"></app-files-tree>
       </div>
     </as-split-area>
-    <as-split-area size="{{selectedProject && selectedProject.language === 'text' ? 50 : 60}}">
+    <as-split-area size="{{simpleLayout ? 45 : 60}}">
       <as-split direction="vertical" [gutterSize]="gutterSize">
-        <as-split-area size="{{selectedProject && selectedProject.language === 'text' ? 100 : 75}}">
+        <as-split-area size="75">
           <div class="editor-wrapper">
             <div class="editor-title truncate" *ngIf="selectedProject">{{selectedFile.name}}</div>
             <ngx-monaco-editor [hidden]="!selectedProject" (onInit)="onInitEditor($event)" [options]="editorOptions"
                                [(ngModel)]="selectedFile.content" class="editor"></ngx-monaco-editor>
           </div>
         </as-split-area>
-        <as-split-area size="{{selectedProject && selectedProject.language === 'text' ? 0 : 25}}">
+        <as-split-area size="25" [visible]="!simpleLayout">
           <div class="logs">
             <pre *ngFor="let log of logs">{{log.value}}</pre>
           </div>
         </as-split-area>
       </as-split>
     </as-split-area>
-    <as-split-area size="{{selectedProject && selectedProject.language === 'text' ? 50 : 20}}">
+    <as-split-area size="{{simpleLayout ? 45 : 20}}">
       <div class="description-title truncate" *ngIf="selectedProject">{{selectedProject.name}}</div>
       <div class="description">
         <p [innerHTML]="selectedProject?.description | safeHtml"></p>
