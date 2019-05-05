@@ -53,6 +53,7 @@
       <div class="project-element" *ngFor="let project of projects" (click)="selectProject(project)" [ngClass]="{'selected': getElementIndex(project.id) !== -1}" >
         <div class="project-element-title">{{project.name}}</div>
         <div class="project-element-description" [innerHTML]="project?.description | safeHtml"></div>
+        <div class="project-element-info">{{ 'products.products-panel.element.import-date' | translate }} {{project?.importTimestamp | date:'d/M/yy'}}</div>
       </div>
     </as-split-area>
   </as-split>

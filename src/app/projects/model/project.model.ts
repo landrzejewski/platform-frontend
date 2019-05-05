@@ -9,5 +9,6 @@ export class ProjectModel {
   language: string;
   files: ProjectFileModel[];
   availableCommands: CommandModel[];
+  importTimestamp: number;
 
 }

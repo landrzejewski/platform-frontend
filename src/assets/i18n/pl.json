@@ -71,6 +71,7 @@
   "products.products-panel.emails-hint": "Wprowadź adresy email adresatów",
   "products.products-panel.invite-button": "Zaproś",
   "products.products-panel.invitation-failed": "Nie udało się wysłać zaproszenia",
+  "products.products-panel.element.import-date": "Zaimportowano: ",
 
   "projects.workspace.project": "Pliki",
   "projects.workspace.reset-project": "reset",
