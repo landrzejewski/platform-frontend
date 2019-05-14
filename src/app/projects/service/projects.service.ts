@@ -22,12 +22,12 @@ export class ProjectsService {
     return this.httpClient.get<ResultPageModel<ProjectSummaryModel>>(`${this.api.projects}`);
   }
 
-  createProject(projectId: number): Observable<number> {
+  createProjectInWorkspace(projectId: number): Observable<number> {
     return this.httpClient.put<HttpResponse<number>>(`${this.api.project}/${projectId}`, '', {observe: "response"})
       .pipe(map(response =>  +response.headers.get('Location').split("/").pop()));
   }
 
-  deleteProject(projectId: number): Observable<void> {
+  deleteProjectFormWorkspace(projectId: number): Observable<void> {
     return this.httpClient.delete<void>(`${this.api.project}/${projectId}`);
   }
 
@@ -58,6 +58,10 @@ export class ProjectsService {
 
   importProject(repositoryUrl: string, username: string, password: string): Observable<void> {
     return this.httpClient.post<void>(`${this.api.repositories}/projects`, {remoteUrl: repositoryUrl, username, password});
+  }
+
+  deleteProject(projectId: number): Observable<void> {
+    return this.httpClient.delete<void>(`${this.api.projects}/${projectId}`);
   }
 
 }

@@ -1,4 +1,5 @@
 <div [style.width.px]="width" [style.height.px]="height - 54">
+  <div *ngIf="deleteError" class="alert-secondary error-info">{{ 'products.products-panel.delete-failed' | translate }}</div>
   <as-split direction="horizontal" [gutterSize]="gutterSize">
     <as-split-area size="20">
       <div class="products-list-title truncate">{{ 'products.products-panel.products' | translate }}</div>
@@ -21,7 +22,7 @@
           <textarea id="description" name="description" class="form-control" rows="6" placeholder="{{ 'products.products-panel.description-hint' | translate }}"
                     [(ngModel)]="editedProduct.description"></textarea>
         </div>
-        <span *ngIf="saveError" class="error">{{ 'products.products-panel.save-product-failed' | translate }}</span>
+          <span *ngIf="saveError" class="error">{{ 'products.products-panel.save-product-failed' | translate }}</span>
         </div>
         <div class="form-group text-right">
           <button class="btn btn-secondary m-1" type="button" (click)="addProduct()" *ngIf="!editedProduct" >{{ 'products.products-panel.new-button' | translate }}</button>
@@ -49,11 +50,17 @@
       </div>
     </as-split-area>
     <as-split-area size="20">
-      <div class="projects-title truncate">{{ 'products.products-panel.elements' | translate }}</div>
-      <div class="project-element" *ngFor="let project of projects" (click)="selectProject(project)" [ngClass]="{'selected': getElementIndex(project.id) !== -1}" >
-        <div class="project-element-title">{{project.name}}</div>
-        <div class="project-element-description" [innerHTML]="project?.description | safeHtml"></div>
-        <div class="project-element-info">{{ 'products.products-panel.element.import-date' | translate }} {{project?.importTimestamp | date:'d/M/yy'}}</div>
+      <div class="elements-title truncate">{{ 'products.products-panel.elements' | translate }}</div>
+      <div class="element" *ngFor="let element of elements" (click)="selectElement(element)" [ngClass]="{'selected': getElementIndex(element.id) !== -1}" >
+        <div class="element-title">{{element.name}}</div>
+        <div class="top-element-info">
+          <span>{{element.type}}</span>
+          <span>{{ 'products.products-panel.element.import-date' | translate }} {{element?.importTimestamp | date:'d/M/yy'}}</span>
+        </div>
+        <div class="element-description" [innerHTML]="element?.description | safeHtml"></div>
+        <div class="element-info">
+          <button class="btn btn-sm btn-secondary" (click)="deleteElement(element)">{{ 'products.products-panel.element.delete-link' | translate }}</button>
+        </div>
       </div>
     </as-split-area>
   </as-split>

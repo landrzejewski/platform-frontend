@@ -6,6 +6,10 @@ import {ProductModel} from "../../model/product.model";
 import {ProjectSummaryModel} from "../../../projects/model/project-summary.model";
 import {ProductElementModel} from "../../model/product-element.model";
 import {InvitationModel} from "../../model/invitation.model";
+import {map, mergeMap, take} from "rxjs/operators";
+import {interval} from "rxjs";
+import {TestsService} from "../../../tests/service/tests.service";
+import {ProductElementSummaryModel} from "../../model/product-element-summary.model";
 
 @Component({
   selector: 'app-products-panel',
@@ -15,10 +19,11 @@ import {InvitationModel} from "../../model/invitation.model";
 export class ProductsPanelComponent {
 
   products: ProductModel[] = [];
-  projects: ProjectSummaryModel[] = [];
+  elements: ProductElementSummaryModel[] = [];
   gutterSize = 6;
   width = 0;
   height = 0;
+  deleteError = false;
   saveError = false;
   pendingRequest = false;
   selectedProduct: ProductModel = null;
@@ -26,31 +31,42 @@ export class ProductsPanelComponent {
   invitationText = 'W związku ze zbliżającym się szkoleniem prosimy o zalogowanie się na platformie Sages i wykonanie kilku ćwiczeń praktycznych. Pozwoli to na określenie ogólnego poziomu wiedzy uczestników oraz lepsze dopasowanie do Państwa potrzeb. Dziękujemy.';
   invitationEmails = '';
 
-  constructor(private sizeService: SizeService, @Inject('products-service') private productsService: ProductsService, private projectsService: ProjectsService) {
+  constructor(private sizeService: SizeService, @Inject('products-service') private productsService: ProductsService, private projectsService: ProjectsService, private testsService: TestsService) {
     sizeService.sizeChanges.asObservable()
       .subscribe(size => {
         this.width = size['width'];
         this.height = size['height'];
       });
     this.refreshProducts();
-    this.refreshProjects();
+    this.refreshElements();
   }
 
   private refreshProducts() {
     this.productsService.getProducts()
-      .subscribe((productsPage) => this.products = productsPage.data, (err) => console.log(err));
+        .subscribe((productsPage) => this.products = productsPage.data, (err) => console.log(err));
   }
 
-  private refreshProjects() {
-    this.projectsService.getProjectsSummaries()
-      .subscribe((projectsPage) => this.projects = projectsPage.data, (err) => console.log(err));
+  private refreshElements() {
+    this.elements = [];
+     this.projectsService.getProjectsSummaries()
+      .pipe(map((projectsPage) => projectsPage.data))
+      .pipe(mergeMap((projects) => projects))
+      .pipe(map((project) =>  {const element:ProductElementSummaryModel = Object.assign(new ProductElementSummaryModel(), project); return element;}))
+      .pipe(map((project) => { project.type = 'PROJECT'; return project; }))
+      .subscribe((element) => this.elements.push(element));
+    this.testsService.getTestsSummaries()
+        .pipe(map((testsPage) => testsPage.data))
+        .pipe(mergeMap((tests) => tests))
+        .pipe(map((test) =>  {const element:ProductElementSummaryModel = Object.assign(new ProductElementSummaryModel(), test); return element;}))
+        .pipe(map((project) => { project.type = 'TEST'; return project; }))
+        .subscribe((element) => this.elements.push(element));
   }
 
   save() {
     this.saveError = false;
     this.pendingRequest = true;
     this.productsService.saveProduct(this.editedProduct)
-      .subscribe(() => {this.reset(); this.refreshProducts(); this.pendingRequest = false;}, () => {this.saveError = true; this.pendingRequest = false;});
+      .subscribe(() => {this.reset(); this.refreshProducts(); this.pendingRequest = false;}, () => {this.saveError = true; this.clearErrorAfterDelay(); this.pendingRequest = false;});
   }
 
   select(product: ProductModel) {
@@ -64,10 +80,10 @@ export class ProductsPanelComponent {
   }
 
   deleteProduct() {
-    this.saveError = false;
+    this.deleteError = false;
     this.pendingRequest = true;
     this.productsService.deleteProduct(this.selectedProduct.id)
-      .subscribe(() => {this.reset(); this.refreshProducts(); this.pendingRequest = false;}, () => {this.saveError = true; this.pendingRequest = false;});
+      .subscribe(() => {this.reset(); this.refreshProducts(); this.pendingRequest = false;}, () => {this.deleteError = true; this.pendingRequest = false;});
   }
 
   reset() {
@@ -83,23 +99,23 @@ export class ProductsPanelComponent {
       .subscribe(() => this.reset(), (err) => console.log(err));
   }
 
-  selectProject(project: ProjectSummaryModel) {
+  selectElement(element: ProductElementSummaryModel) {
     if (!this.selectedProduct) {
       return;
     }
-    let index =this.getElementIndex(project.id);
+    let index = this.getElementIndex(element.id);
     if (index === -1) {
-      this.addElement(project);
+      this.addElement(element);
     } else {
       this.selectedProduct.elements.splice(index, 1);
     }
   }
 
-  private addElement(project: ProjectSummaryModel) {
-    let element = new ProductElementModel();
-    element.elementId = project.id;
-    element.type = 'PROJECT';
-    this.selectedProduct.elements.push(element);
+  private addElement(element: ProductElementSummaryModel) {
+    let productElement = new ProductElementModel();
+    productElement.elementId = element.id;
+    productElement.type = element.type;
+    this.selectedProduct.elements.push(productElement);
   }
 
   private getElementIndex(id: number) {
@@ -107,6 +123,28 @@ export class ProductsPanelComponent {
       return -1;
     }
     return this.selectedProduct.elements.findIndex((element) => element.elementId === id);
+  }
+
+  deleteElement(element: ProductElementSummaryModel) {
+    this.deleteError = false;
+    if (element.type === 'PROJECT') {
+      this.projectsService.deleteProject(element.id)
+          .subscribe(() => this.refreshElements(), () => {
+            this.deleteError = true;
+            this.clearErrorAfterDelay();
+          });
+    }
+    if (element.type === 'TEST') {
+      this.testsService.deleteTest(element.id)
+          .subscribe(() => this.refreshElements(), () => {
+            this.deleteError = true;
+            this.clearErrorAfterDelay();
+          });
+    }
+  }
+
+  clearErrorAfterDelay() {
+    interval(5000).pipe(take(1)).subscribe(() => this.deleteError = false);
   }
 
 }

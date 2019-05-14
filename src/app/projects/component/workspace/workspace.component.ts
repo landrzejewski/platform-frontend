@@ -64,7 +64,7 @@ export class WorkspaceComponent implements OnInit {
 
   createProject(projectId: number) {
     this.error = null;
-    this.projectsService.createProject(projectId)
+    this.projectsService.createProjectInWorkspace(projectId)
       .subscribe(taskId => this.waitForProjectCreation(projectId, taskId), error => this.showError(error));
   }
 
@@ -172,7 +172,7 @@ export class WorkspaceComponent implements OnInit {
   }
 
   resetProject() {
-    this.projectsService.deleteProject(this.selectedProject.id)
+    this.projectsService.deleteProjectFormWorkspace(this.selectedProject.id)
       .subscribe(() => window.location.reload());
   }
 

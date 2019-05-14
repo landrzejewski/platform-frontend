@@ -13,6 +13,7 @@ import {TokenInterceptor} from './accounts/interceptor/token.interceptor';
 import {Api} from './api';
 import {SizeService} from './size.service';
 import {ProductsModule} from "./products/products.module";
+import {TestsModule} from "./tests/tests.module";
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import {ProductsModule} from "./products/products.module";
     }),
     AccountsModule,
     ProjectsModule,
+    TestsModule,
     ProductsModule
   ],
   providers: [

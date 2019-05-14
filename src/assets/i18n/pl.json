@@ -50,11 +50,12 @@
   "shared.admin-panel.products": "Produkty",
   "shared.admin-panel.projects": "Importowanie",
   "shared.admin-panel.import-project": "Importuj projekt",
+  "shared.admin-panel.import-test": "Importuj test",
   "shared.admin-panel.logout-button": "Wyloguj",
 
   "products.products-panel.products": "Produkty",
   "products.products-panel.product": "Produkt",
-  "products.products-panel.elements": "Dostępne projekty",
+  "products.products-panel.elements": "Dostępne elementy",
   "products.products-panel.name": "Nazwa",
   "products.products-panel.name-hint": "Wprowadź nazwę",
   "products.products-panel.description": "Opis",
@@ -72,6 +73,8 @@
   "products.products-panel.invite-button": "Zaproś",
   "products.products-panel.invitation-failed": "Nie udało się wysłać zaproszenia",
   "products.products-panel.element.import-date": "Zaimportowano: ",
+  "products.products-panel.element.delete-link": "Usuń",
+  "products.products-panel.delete-failed": "Nie można usunąć elementu który jest w użyciu",
 
   "projects.workspace.project": "Pliki",
   "projects.workspace.reset-project": "reset",
@@ -88,6 +91,16 @@
   "projects.import-project.password-hint": "Wprowadź swoje hasło",
   "projects.import-project.import-button": "Zaimportuj",
   "projects.import-project.import-failed-message": "Importowanie projektu nie powiodło się",
+
+  "projects.import-test.title": "Importowanie testu",
+  "projects.import-test.repository-url": "Adres repozytorium",
+  "projects.import-test.repository-url-hint": "Wprowadź adres repozytorium",
+  "projects.import-test.username": "Użytkownik",
+  "projects.import-test.username-hint": "Wprowadź swojego użytkownika",
+  "projects.import-test.password": "Hasło",
+  "projects.import-test.password-hint": "Wprowadź swoje hasło",
+  "projects.import-test.import-button": "Zaimportuj",
+  "projects.import-test.import-failed-message": "Importowanie testu nie powiodło się",
 
   "products.product-summary.begin": "Rozpocznij",
 
