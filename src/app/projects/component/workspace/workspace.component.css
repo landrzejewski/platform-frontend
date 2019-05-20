@@ -86,3 +86,26 @@ pre {
   background-color: #393939;
   border: none;
 }
+
+.test-panel {
+  padding: 20px;
+}
+
+.test-info {
+  display: flex;
+  justify-content: space-between;
+}
+
+.question-text {
+  margin-top: 10px;
+}
+
+.answers {
+  margin: 8px;
+}
+
+.test-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 100px;
+}

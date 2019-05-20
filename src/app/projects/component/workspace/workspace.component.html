@@ -2,7 +2,7 @@
   <div class="navbar">
     <ul class="nav justify-content-left">
       <li class="nav-item">
-        <a class="nav-link" routerLink="" *ngIf="product && currentProject < product.elements.length" (click)="showNextElement($event)">{{ 'projects.workspace.show-next-element-button' | translate }}</a>
+        <a class="nav-link" routerLink="" *ngIf="product && currentElementIndex < product.elements.length" (click)="showNextElement($event)">{{ 'projects.workspace.show-next-element-button' | translate }}</a>
       </li>
     </ul>
     <ul class="nav justify-content-center" *ngIf="selectedProject && selectedProject.language !== 'text'">
@@ -26,6 +26,34 @@
         <a class="nav-link" routerLink="" (click)="logout()">{{ 'projects.workspace.logout-button' | translate }}</a>
       </li>
     </ul>
+  </div>
+
+  <div class="test-panel" *ngIf="testInstance">
+    <div class="test-info">
+      <span>{{ 'projects.workspace.question-number' | translate }}: {{ currentQuestionIndex }} / {{ testInstance.questions.length }}</span>
+      <span>{{ 'projects.workspace.question-category' | translate }}: {{ testInstance.questions[questionArrayIndex].category }}</span>
+    </div>
+
+    <div class="question-text">
+      <span>{{ testInstance.questions[questionArrayIndex].text }}</span>
+    </div>
+
+    <div class="answers" *ngIf="testInstance.questions[questionArrayIndex].questionType === 'SELECT'">
+
+      <div class="answers custom-control custom-checkbox" *ngFor="let answer of testInstance.questions[questionArrayIndex].answers">
+        <input id="answer-{{answer.id}}"  type="checkbox" class="custom-control-input" value="true" name="answer-{{answer.id}}" [(ngModel)]="answer.value">
+        <label for="answer-{{answer.id}}" class="custom-control-label">{{ answer.text }}</label>
+      </div>
+
+    </div>
+
+    <div class="mt-2" *ngIf="testInstance.questions[questionArrayIndex].questionType === 'FILL_IN'">
+        <input name="answer-{{testInstance.questions[questionArrayIndex].id}}" class="form-control" [(ngModel)]="testInstance.questions[questionArrayIndex].answers[0].value">
+    </div>
+
+    <div class="test-buttons">
+      <button class="btn btn-sm btn-secondary" *ngIf="currentQuestionIndex !== testInstance.questions.length" (click)="answerQuestion()">{{ 'projects.workspace.next-btn' | translate }}</button>
+    </div>
   </div>
   <as-split direction="horizontal" [gutterSize]="gutterSize" *ngIf="ready">
     <as-split-area size="{{simpleLayout ? 10 : 20}}">

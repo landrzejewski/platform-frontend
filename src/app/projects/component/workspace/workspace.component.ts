@@ -3,7 +3,6 @@ import {HttpErrorResponse} from '@angular/common/http';
 import {flatMap, mergeMap, shareReplay, skipWhile} from 'rxjs/operators';
 import {interval, zip} from 'rxjs';
 import {ProjectModel} from '../../model/project.model';
-import {ProjectSummaryModel} from '../../model/project-summary.model';
 import {ProjectsService} from '../../service/projects.service';
 import {CommandModel} from '../../model/command.model';
 import {SizeService} from '../../../size.service';
@@ -12,6 +11,8 @@ import {LogEntryModel} from "../../model/log-entry.model";
 import {ProductsService} from "../../../products/service/products.service";
 import {ProductModel} from "../../../products/model/product.model";
 import {ActivatedRoute, Router} from "@angular/router";
+import {TestsService} from "../../../tests/service/tests.service";
+import {TestInstanceModel} from "../../../tests/model/test-instance.model";
 
 @Component({
   selector: 'app-workspace',
@@ -42,13 +43,17 @@ export class WorkspaceComponent implements OnInit {
       enabled: false
     }
   };
-
   product: ProductModel;
-  currentProject = 0;
+  currentElementIndex = 0;
+  currentElement = null;
   simpleLayout = true;
   ready = false;
+  testInstance: TestInstanceModel;
+  currentQuestionIndex = 1;
+  questionArrayIndex = 0;
 
-  constructor(private sizeService: SizeService,private route: ActivatedRoute, private router: Router, private projectsService: ProjectsService, @Inject('products-service') private productsService: ProductsService,  private securityService: SecurityService) {
+  constructor(private sizeService: SizeService,private route: ActivatedRoute, private router: Router, private projectsService: ProjectsService,
+              @Inject('products-service') private productsService: ProductsService,  private securityService: SecurityService, private testService: TestsService) {
     sizeService.sizeChanges.asObservable()
       .subscribe(size => {
         this.width = size['width'];
@@ -59,7 +64,39 @@ export class WorkspaceComponent implements OnInit {
 
   ngOnInit() {
     this.product = this.route.snapshot.data.products[0];
-    this.createProject(this.product.elements[this.currentProject].elementId);
+    console.log(this.product);
+    this.initElement();
+  }
+
+  private initElement() {
+    this.currentElement = this.product.elements[this.currentElementIndex];
+    if (this.currentElement.type === 'PROJECT') {
+      this.createProject(this.currentElement.elementId);
+    } else {
+      this.startTest(this.currentElement.elementId);
+    }
+  }
+
+  startTest(testId: number) {
+    this.testService.startTest(testId)
+        .subscribe((testInstance) => {
+          this.questionArrayIndex = this.findQuestionIndex(testInstance, this.currentQuestionIndex);
+          this.testInstance = testInstance;
+        }, error => this.showError(error));
+  }
+
+  answerQuestion() {
+    let question = this.testInstance.questions[this.questionArrayIndex];
+    this.testService.answerQuestion(this.testInstance.id, question.id, question.answers)
+        .subscribe((testInstance) => {
+          this.testInstance = testInstance;
+          this.currentQuestionIndex++;
+          this.questionArrayIndex = this.findQuestionIndex(testInstance, this.currentQuestionIndex);
+        },error => this.showError(error));
+  }
+
+  private findQuestionIndex(testInstance: TestInstanceModel, questionIndex: number) {
+    return testInstance.questions.findIndex((question) => question.index === questionIndex);
   }
 
   createProject(projectId: number) {
@@ -185,15 +222,38 @@ export class WorkspaceComponent implements OnInit {
 
   showNextElement(event) {
     event.preventDefault();
-    this.projectsService.updateProjectFiles(this.selectedProject.id, this.selectedProject.files)
-        .subscribe(() => {
-           if (this.currentProject < this.product.elements.length - 1) {
-             this.createProject(this.product.elements[++this.currentProject].elementId);
-           } else {
-             this.router.navigateByUrl('/product-final-summary');
-           }
-        }, (error) => console.log(error));
 
+    if (this.currentElement.type === 'TEST') {
+      let question = this.testInstance.questions[this.questionArrayIndex];
+      this.testService.answerQuestion(this.testInstance.id, question.id, question.answers)
+          .subscribe(() => {
+            if (this.currentElementIndex < this.product.elements.length - 1) {
+              this.initElement();
+            } else {
+              this.testService.finishTest(this.testInstance.id)
+                  .pipe(mergeMap(() => this.testService.getTestResults(this.testInstance.id)))
+                  .subscribe((results) => {
+                    console.log(results);
+                    this.testInstance = null;
+                    this.currentQuestionIndex = 1;
+                    this.router.navigateByUrl('/product-final-summary');
+                  });
+
+
+
+            }
+          });
+    } else {
+      this.projectsService.updateProjectFiles(this.selectedProject.id, this.selectedProject.files)
+          .subscribe(() => {
+            if (this.currentElementIndex < this.product.elements.length - 1) {
+              ++this.currentElementIndex
+              this.initElement();
+            } else {
+              this.router.navigateByUrl('/product-final-summary');
+            }
+          }, (error) => console.log(error));
+    }
   }
 
 }

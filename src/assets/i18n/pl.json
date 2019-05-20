@@ -82,6 +82,11 @@
   "projects.workspace.logout-button": "Wyloguj",
   "projects.workspace.show-next-element-button": "Zapisz wynik",
 
+  "projects.workspace.question-number": "Pytanie",
+  "projects.workspace.question-category": "Kategoria",
+  "projects.workspace.next-btn": "Następne",
+  "projects.workspace.previous-btn": "Poprzednie",
+
   "projects.import-project.title": "Importowanie projektu",
   "projects.import-project.repository-url": "Adres repozytorium",
   "projects.import-project.repository-url-hint": "Wprowadź adres repozytorium",
