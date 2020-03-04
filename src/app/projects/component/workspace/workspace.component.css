@@ -20,11 +20,16 @@
   }
 }
 
-
 .navbar {
   background-color: #2d2d2d;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding: 10px 20px;
+  min-height: 50px;
+}
+
+.icons p {
+  padding: 0;
+  margin: 0;
+  font-size: 12px;
 }
 
 .files-title, .editor-title, .description-title {
@@ -33,6 +38,10 @@
   background-color: #393939;
   padding: 6px;
   font-size: 14px;
+}
+
+.icon {
+  font-size: 20px;
 }
 
 .files {
@@ -54,6 +63,12 @@
 
 .description {
   padding: 8px 12px;
+  font-size: 14px;
+}
+
+.hint {
+  padding: 8px 12px;
+  font-size: 14px;
 }
 
 .logs {
@@ -78,13 +93,21 @@ pre {
   font-size: 14px;
 }
 
-.success {
-  font-size: 14px;
-  padding: 5px;
+.result {
+  font-size: 16px;
+  font-weight: bold;
+  padding: 8px;
   margin: 0!important;
   color: #d4d4d4;
-  background-color: #393939;
   border: none;
+}
+
+.success-result {
+  background-color: #3aaa55;
+}
+
+.failure-result {
+  background-color: #aa474f;
 }
 
 .test-panel {
@@ -108,4 +131,8 @@ pre {
   display: flex;
   justify-content: space-between;
   margin-top: 100px;
+}
+
+.command {
+  text-align: center;
 }

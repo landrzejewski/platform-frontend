@@ -10,5 +10,7 @@ export class ProjectModel {
   files: ProjectFileModel[];
   availableCommands: CommandModel[];
   importTimestamp: number;
+  hint: string;
+  solution: string;
 
 }

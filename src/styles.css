@@ -334,3 +334,8 @@ code {
 label {
   font-size: 14px;
 }
+
+.info-title {
+  color: #ffbc00;
+  font-size: 18px;
+}

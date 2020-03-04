@@ -1,31 +1,58 @@
 <div [style.width.px]="width" [style.height.px]="height - (success ? 85 : 50)">
   <div class="navbar">
     <ul class="nav justify-content-left">
-      <li class="nav-item">
-        <a class="nav-link" routerLink="" *ngIf="product && currentElementIndex < product.elements.length" (click)="showNextElement($event)">{{ 'projects.workspace.show-next-element-button' | translate }}</a>
-      </li>
     </ul>
-    <ul class="nav justify-content-center" *ngIf="selectedProject && selectedProject.language !== 'text'">
+      <ul class="nav justify-content-center icons" *ngIf="selectedProject">
       <li class="nav-item" [hidden]="status" *ngFor="let command of selectedProject.availableCommands">
-        <a class="nav-link" routerLink="" (click)="runCommand(command)" title="{{command.name}}">
-          <i class="fa fas" [ngClass]="{'fa-play': command.name === 'run', 'fa-hammer': command.name === 'build', 'fa-check': command.name === 'test'}"></i>
+        <a class="nav-link command" routerLink="" (click)="runCommand(command)" title="{{command.name}}">
+          <i class="fa fas icon" [ngClass]="{'fa-play-circle': command.name === 'run', 'fa-hammer': command.name === 'build', 'fa-check': command.name === 'test'}"></i>
+          <p>{{ command.name | translate }}</p>
         </a>
       </li>
       <li class="nav-item" [hidden]="status">
-        <a class="nav-link" routerLink="" (click)="resetProject()" title="{{ 'projects.workspace.reset-project' | translate }}">
-          <i class="fas fa-times"></i>
+        <a class="nav-link command" routerLink="" (click)="resetProject()" title="{{ 'projects.workspace.reset-project' | translate }}">
+          <i class="fas fa-times icon"></i>
+          <p>{{ 'projects.workspace.reset-project' | translate }}</p>
         </a>
       </li>
+      <li class="nav-item" [hidden]="status" *ngIf="!isHintVisible && selectedProject.hint">
+        <a class="nav-link command" routerLink="" (click)="showHint()" title="{{ 'projects.workspace.show-hint' | translate }}">
+          <i class="fas fa-question icon"></i>
+          <p>{{ 'projects.workspace.show-hint' | translate }}</p>
+        </a>
+      </li>
+      <li class="nav-item" [hidden]="status" *ngIf="isHintVisible && !isAnswerVisible">
+        <a class="nav-link command" routerLink="" (click)="showSolution()" title="{{ 'projects.workspace.show-solution' | translate }}">
+          <i class="fas fa-thumbs-up icon"></i>
+          <p>{{ 'projects.workspace.show-solution' | translate }}</p>
+        </a>
+      </li>
+        <li class="nav-item" [hidden]="status && product && currentElementIndex < product.elements.length">
+          <a class="nav-link command" routerLink="" (click)="showNextElement($event)" title="{{ 'projects.workspace.show-next-element-button' | translate }}">
+            <i class="fas fa-forward icon"></i>
+            <p>{{ 'projects.workspace.show-next-element-button' | translate }}</p>
+          </a>
+        </li>
+        <li class="nav-item" [hidden]="status">
+          <a class="nav-link command" routerLink="" (click)="logout()" title="{{ 'projects.workspace.show-next-element-button' | translate }}">
+            <i class="fas fa-sign-out-alt icon"></i>
+            <p>{{ 'projects.workspace.logout-button' | translate }}</p>
+          </a>
+        </li>
       <li class="nav-item" [hidden]="!status">
          <span class="spinner-border"></span>
          <span class="status">{{status}}</span>
       </li>
     </ul>
     <ul class="nav justify-content-right">
-      <li class="nav-item">
-        <a class="nav-link" routerLink="" (click)="logout()">{{ 'projects.workspace.logout-button' | translate }}</a>
-      </li>
     </ul>
+  </div>
+
+  <div class="result failure-result alert alert-secondary" *ngIf="failure">
+    {{ 'projects.workspace.failure' | translate }}
+  </div>
+  <div class="result success-result alert alert-secondary" *ngIf="success">
+    {{ 'projects.workspace.success' | translate }}
   </div>
 
   <div class="test-panel" *ngIf="testInstance">
@@ -56,13 +83,13 @@
     </div>
   </div>
   <as-split direction="horizontal" [gutterSize]="gutterSize" *ngIf="ready">
-    <as-split-area size="{{simpleLayout ? 10 : 20}}">
+    <as-split-area size="{{simpleLayout ? 10 : 10}}">
       <div class="files-title truncate" *ngIf="selectedProject">{{ 'projects.workspace.project' | translate }}</div>
       <div class="files scroll">
         <app-files-tree *ngIf="files" [items]="files" key="children"></app-files-tree>
       </div>
     </as-split-area>
-    <as-split-area size="{{simpleLayout ? 45 : 60}}">
+    <as-split-area size="{{simpleLayout ? 45 : 50}}">
       <as-split direction="vertical" [gutterSize]="gutterSize">
         <as-split-area size="75">
           <div class="editor-wrapper">
@@ -78,14 +105,14 @@
         </as-split-area>
       </as-split>
     </as-split-area>
-    <as-split-area size="{{simpleLayout ? 45 : 20}}">
+    <as-split-area size="{{simpleLayout ? 45 : 40}}">
       <div class="description-title truncate" *ngIf="selectedProject">{{selectedProject.name}}</div>
       <div class="description">
         <p [innerHTML]="selectedProject?.description | safeHtml"></p>
       </div>
+      <div class="hint" *ngIf="isHintVisible">
+        <p [innerHTML]="selectedProject?.hint | safeHtml"></p>
+      </div>
     </as-split-area>
   </as-split>
-  <div class="success alert alert-secondary" *ngIf="success">
-    {{ 'projects.workspace.success' | translate }}
-  </div>
 </div>

@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  baseUrl: 'https://elearning.sages.pl',
+  baseUrl: 'https://kodolamacz.online',
   apiVersion: '/api/v1'
 };

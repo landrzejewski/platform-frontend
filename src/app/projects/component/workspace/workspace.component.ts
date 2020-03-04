@@ -29,6 +29,9 @@ export class WorkspaceComponent implements OnInit {
   status = '';
   logs: LogEntryModel[] = [];
   success = false;
+  failure = false;
+  isHintVisible = false;
+  isAnswerVisible = false;
   files = [];
   selectedFile = {content: '', editable: false, name: ''};
   editor;
@@ -64,7 +67,6 @@ export class WorkspaceComponent implements OnInit {
 
   ngOnInit() {
     this.product = this.route.snapshot.data.products[0];
-    console.log(this.product);
     this.initElement();
   }
 
@@ -179,6 +181,7 @@ export class WorkspaceComponent implements OnInit {
   runCommand(command: CommandModel) {
     this.logs = [];
     this.success = false;
+    this.failure = false;
     this.status = 'SAVING FILES';
     this.projectsService.updateProjectFiles(this.selectedProject.id, this.selectedProject.files)
       .pipe(mergeMap(() => this.projectsService.runCommand(this.selectedProject.id, command.id)))
@@ -202,10 +205,16 @@ export class WorkspaceComponent implements OnInit {
   private loadCommandsOutput(projectId: number, expectedResult: string) {
     this.status = '';
     this.projectsService.getCommandsOutput(projectId)
-      .subscribe(output => {
-        this.logs = output;
-        this.success = output.length > 0 && output[output.length - 1]['commandExecutionStatus'] === 'SUCCESS';
-      });
+        .subscribe(output => {
+          this.logs = output;
+          if (output.length > 0) {
+            if (output[output.length - 1]['commandExecutionStatus'] === 'SUCCESS') {
+              this.success = true;
+            } else {
+              this.failure = true;
+            }
+          }
+        });
   }
 
   resetProject() {
@@ -218,6 +227,7 @@ export class WorkspaceComponent implements OnInit {
     this.status = '';
     this.logs = [];
     this.success = false;
+    this.failure = false;
   }
 
   showNextElement(event) {
@@ -233,14 +243,10 @@ export class WorkspaceComponent implements OnInit {
               this.testService.finishTest(this.testInstance.id)
                   .pipe(mergeMap(() => this.testService.getTestResults(this.testInstance.id)))
                   .subscribe((results) => {
-                    console.log(results);
                     this.testInstance = null;
                     this.currentQuestionIndex = 1;
                     this.router.navigateByUrl('/product-final-summary');
                   });
-
-
-
             }
           });
     } else {
@@ -254,6 +260,15 @@ export class WorkspaceComponent implements OnInit {
             }
           }, (error) => console.log(error));
     }
+  }
+
+  showHint() {
+    this.isHintVisible = true;
+  }
+
+  showSolution() {
+    this.isAnswerVisible = true;
+    this.selectedFile.content = this.selectedProject.solution;
   }
 
 }

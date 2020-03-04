@@ -1,6 +1,6 @@
 {
   "app.title": "Platforma Sages",
-  "app.legal-rights": "© 2019 Sages sp. z o.o.",
+  "app.legal-rights": "© 2020 Sages sp. z o.o.",
   "app.regulations-link": "Polityka prywatności",
 
   "accounts.login-form.title": "Logowanie użytkownika",
@@ -77,10 +77,16 @@
   "products.products-panel.delete-failed": "Nie można usunąć elementu który jest w użyciu",
 
   "projects.workspace.project": "Pliki",
-  "projects.workspace.reset-project": "reset",
+  "run": "uruchom",
+  "build": "zbuduj",
+  "test": "testuj",
+  "projects.workspace.reset-project": "resetuj",
+  "projects.workspace.show-hint": "podpowiedź",
+  "projects.workspace.show-solution": "rozwiązanie",
   "projects.workspace.success": "Zadanie rozwiązane poprawnie",
-  "projects.workspace.logout-button": "Wyloguj",
-  "projects.workspace.show-next-element-button": "Zapisz wynik",
+  "projects.workspace.failure": "Zadanie rozwiązane niepoprawnie",
+  "projects.workspace.logout-button": "wyloguj",
+  "projects.workspace.show-next-element-button": "kolejne zadanie",
 
   "projects.workspace.question-number": "Pytanie",
   "projects.workspace.question-category": "Kategoria",
