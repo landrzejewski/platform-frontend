@@ -27,7 +27,7 @@
     "core-js": "^2.5.4",
     "crypto-js": "^3.1.9-1",
     "jquery": "^3.3.1",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.21",
     "ngx-monaco-editor": "^6.0.0",
     "popper.js": "^1.14.7",
     "rxjs": "~6.3.3",
